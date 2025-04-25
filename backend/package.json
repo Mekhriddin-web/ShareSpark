@@ -1,5 +1,5 @@
 {
-  "name": "backend",
+  "name": "@sharespark/backend",
   "private": true,
   "version": "0.0.0",
   "scripts": {
@@ -9,6 +9,7 @@
     "prettify": "prettier --loglevel warn --cache --write '{src/**/*,*}.{ts,tsx,js,json,yml,scss}' '!**/{node_modules,dist}/**/*'"
   },
   "devDependencies": {
+    "@types/express": "^5.0.1",
     "@types/node": "^22.14.1",
     "prettier": "^3.5.3",
     "rimraf": "^6.0.1",

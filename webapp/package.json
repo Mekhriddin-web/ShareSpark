@@ -1,5 +1,5 @@
 {
-  "name": "webapp",
+  "name": "@sharespark/webapp",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -11,8 +11,7 @@
     "prettify": "prettier --loglevel warn --cache --write '{src/**/*,*}.{ts,tsx,js,json,yml,scss}' '!**/{node_modules,dist}/**/*'"
   },
   "dependencies": {
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "@sharespark/backend": "workspace:*"
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",

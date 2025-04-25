@@ -1,1 +1,17 @@
-console.log("example");
+import express from 'express';
+import {trpcRouter} from './trpc';
+import * as trpcExpress from '@trpc/server/adapters/express';
+
+const expressApp = express();
+
+expressApp.get('/ping', (req, res) => {
+  res.send('pong');
+});
+
+expressApp.use('/trpc', trpcExpress.createExpressMiddleware({
+    router: trpcRouter,
+}))
+
+expressApp.listen(3000, () => {
+  console.info('Server is running on http://localhost:3000');
+});
