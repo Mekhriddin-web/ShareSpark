@@ -1,8 +1,25 @@
+import { trpc } from '../../lib/trpc';
+
 export const AllIdeasPage = () => {
+  const { data, error, isLoading, isFetching, isError } = trpc.getIdeas.useQuery();
+
+  if (isLoading || isFetching) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error: {error.message}</div>;
+  }
+
   return (
     <div>
       <h1>All Ideas</h1>
-      <p>List of all ideas will be displayed here.</p>
+      {data?.ideas.map(idea => (
+        <div key={idea.nick} style={{ border: '1px solid black', margin: '10px', padding: '10px' }}>
+          <h2>{idea.name}</h2>
+          <p>{idea.description}</p>
+        </div>
+      ))}
     </div>
   );
 };
