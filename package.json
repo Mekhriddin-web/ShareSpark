@@ -3,6 +3,15 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "scripts": {
+    "b": "pnpm --filter @sharespark/backend",
+    "w": "pnpm --filter @sharespark/webapp",
+    "dev": "pnpm -r --parallel dev",
+    "types": "concurrently 'pnpm b types' 'pnpm w types'",
+    "lint": "eslint .",
+    "prettify": "pnpm -r --parallel prettify",
+    "prepare": "husky"
+  },
   "dependencies": {
     "@tanstack/react-query": "^5.74.4",
     "@trpc/client": "^11.1.1",
@@ -11,14 +20,6 @@
     "express": "^5.1.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
-  },
-  "scripts": {
-    "b": "pnpm --filter @sharespark/backend",
-    "w": "pnpm --filter @sharespark/webapp",
-    "dev": "pnpm -r --parallel dev",
-    "types": "concurrently 'pnpm b types' 'pnpm w types'",
-    "lint": "eslint .",
-    "prettify": "pnpm -r --parallel prettify"
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",
@@ -29,6 +30,8 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.0.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.5.1",
     "prettier": "^3.5.3",
     "rimraf": "^6.0.1",
     "ts-node": "^10.9.2",
