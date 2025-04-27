@@ -2,6 +2,7 @@ import { useParams } from 'react-router';
 
 import { trpc } from '../../lib/trpc';
 import { ViewIdeaRouteParams } from '../../lib/routes';
+import { Segment } from '../../components/Segment';
 
 export const ViewIdeaPage = () => {
   const { ideaNick } = useParams() as ViewIdeaRouteParams;
@@ -19,10 +20,5 @@ export const ViewIdeaPage = () => {
     return <div>Idea not found</div>;
   }
 
-  return (
-    <div>
-      <h1>{data.idea.name}</h1>
-      <p>{data.idea.description}</p>
-    </div>
-  );
+  return <Segment title={data.idea.name} description={data.idea.description} />;
 };

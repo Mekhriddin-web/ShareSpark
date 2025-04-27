@@ -1,20 +1,27 @@
 import { Link, Outlet } from 'react-router';
 
-import { getAllIdeasRoute } from '../../lib/routes';
+import { getAllIdeasRoute, getNewIdeaRoute } from '../../lib/routes';
+import css from './index.module.scss';
 
-export const Layout: React.FC = () => {
+export const Layout = () => {
   return (
-    <div>
-      <p>
-        <b>ShareSpark</b>
-      </p>
-      <ul>
-        <li>
-          <Link to={getAllIdeasRoute()}>All Ideas</Link>
-        </li>
-      </ul>
-      <hr />
-      <div>
+    <div className={css.layout}>
+      <div className={css.navigation}>
+        <div className={css.logo}>IdeaNick</div>
+        <ul className={css.menu}>
+          <li className={css.item}>
+            <Link className={css.link} to={getAllIdeasRoute()}>
+              All Ideas
+            </Link>
+          </li>
+          <li className={css.item}>
+            <Link className={css.link} to={getNewIdeaRoute()}>
+              Add Idea
+            </Link>
+          </li>
+        </ul>
+      </div>
+      <div className={css.content}>
         <Outlet />
       </div>
     </div>
