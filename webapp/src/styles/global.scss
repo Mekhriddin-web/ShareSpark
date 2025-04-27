@@ -1,6 +1,6 @@
-@use '../../node_modules/reset-css/sass/_reset.scss';
-@use 'include-media/dist/_include-media.scss' as *;
-@use './_vars.scss' as *;
+@use '../../node_modules/reset-css/sass/reset';
+@use 'include-media/dist/include-media.scss' as *;
+@use './vars.scss' as *;
 
 html,
 body,
