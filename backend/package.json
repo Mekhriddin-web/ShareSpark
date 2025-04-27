@@ -12,9 +12,12 @@
   "devDependencies": {
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.1",
+    "@types/lodash": "^4.17.16",
     "@types/node": "^22.14.1"
   },
   "dependencies": {
-    "cors": "^2.8.5"
+    "cors": "^2.8.5",
+    "lodash": "^4.17.21",
+    "zod": "^3.24.3"
   }
 }
