@@ -16,6 +16,7 @@ export const Input = ({ name, label, formik }: { label: string; name: string; fo
         value={formik.values[name]}
         name={name}
         id={name}
+        disabled={formik.isSubmitting}
       />
       {formik.touched[name] && error ? <div style={{ color: 'red' }}>{error}</div> : null}
     </div>

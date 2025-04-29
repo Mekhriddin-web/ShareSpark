@@ -1,12 +1,18 @@
 import { useFormik } from 'formik';
 import { withZodSchema } from 'formik-validator-zod';
-import { z } from 'zod';
+import { createIdeaTrpcInput } from '@ShareSpark/backend/src/router/createIdea/input';
+import { useState } from 'react';
 
 import { Segment } from '../../components/Segment';
 import { Input } from '../../components/Input';
 import { Textarea } from '../../components/Textarea';
+import { trpc } from '../../lib/trpc';
 
 export const NewIdeaPage = () => {
+  const createIdea = trpc.createIdea.useMutation();
+  const [successMessageVisible, setSuccessMessageVisible] = useState(false);
+  const [submittingError, setSubmittingError] = useState<string | null>(null);
+
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -14,19 +20,22 @@ export const NewIdeaPage = () => {
       description: '',
       text: '',
     },
-    validate: withZodSchema(
-      z.object({
-        name: z.string().min(1, 'Name is required'),
-        nick: z
-          .string()
-          .min(1, 'Nick is required')
-          .regex(/^[a-z0-9-]+$/, 'Nick may contain only lowercase letters, numbers and dashes'),
-        description: z.string().min(1, 'Description is required'),
-        text: z.string().min(100, 'Text should be at least 100 characters long'),
-      })
-    ),
-    onSubmit: values => {
-      console.log('Submitted', values);
+    validate: withZodSchema(createIdeaTrpcInput),
+    onSubmit: async values => {
+      try {
+        await createIdea.mutateAsync(values);
+        formik.resetForm();
+        setSuccessMessageVisible(true);
+        setTimeout(() => {
+          setSuccessMessageVisible(false);
+        }, 3000);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
+        setSubmittingError(error.message);
+        setTimeout(() => {
+          setSubmittingError(null);
+        }, 3000);
+      }
     },
   });
   return (
@@ -38,7 +47,11 @@ export const NewIdeaPage = () => {
         <Input name="description" label="Description" formik={formik} />
         <Textarea name="text" label="Text" formik={formik} />
 
-        <button type="submit">Create Idea</button>
+        {successMessageVisible && <div style={{ color: 'green', marginTop: 10 }}>Idea created successfully!</div>}
+        {!!submittingError && <div style={{ color: 'red', marginTop: 10 }}>{submittingError}</div>}
+        <button type="submit" disabled={formik.isSubmitting}>
+          {formik.isSubmitting ? 'Creating...' : 'Create Idea'}
+        </button>
       </form>
     </div>
   );
