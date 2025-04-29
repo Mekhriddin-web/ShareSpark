@@ -1,4 +1,4 @@
-import { TrpcRouter } from '@ShareSpark/backend/src/trpc';
+import { TrpcRouter } from '@ShareSpark/backend/src/router';
 import { QueryClient } from '@tanstack/react-query';
 import { createTRPCReact } from '@trpc/react-query';
 import { httpBatchLink } from '@trpc/client';
