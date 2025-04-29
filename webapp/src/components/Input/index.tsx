@@ -1,24 +1,48 @@
 import { FormikProps } from 'formik';
+import cn from 'classnames';
+
+import css from './index.module.scss';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-export const Input = ({ name, label, formik }: { label: string; name: string; formik: FormikProps<any> }) => {
+export const Input = ({
+  name,
+  label,
+  formik,
+  maxWidth,
+}: {
+  label: string;
+  name: string;
+  formik: FormikProps<any>;
+  maxWidth?: number;
+}) => {
+  const value = formik.values[name];
   const error = formik.errors[name] as string | undefined;
+  const touched = formik.touched[name];
+  const invalid = !!touched && !!error;
+  const disabled = formik.isSubmitting;
+
   return (
-    <div style={{ marginBottom: 10 }}>
-      <label htmlFor={name}>{label}</label>
-      <br />
+    <div className={cn({ [css.field]: true, [css.disabled]: disabled })}>
+      <label className={css.label} htmlFor={name}>
+        {label}
+      </label>
       <input
+        className={cn({
+          [css.input]: true,
+          [css.invalid]: invalid,
+        })}
         type="text"
         onChange={formik.handleChange}
         onBlur={() => {
           formik.setFieldTouched(name, true);
         }}
-        value={formik.values[name]}
+        value={value}
         name={name}
         id={name}
         disabled={formik.isSubmitting}
+        style={{ maxWidth }}
       />
-      {formik.touched[name] && error ? <div style={{ color: 'red' }}>{error}</div> : null}
+      {invalid && <div className={css.error}>{error}</div>}
     </div>
   );
 };

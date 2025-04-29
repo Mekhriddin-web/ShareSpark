@@ -7,6 +7,8 @@ import { Segment } from '../../components/Segment';
 import { Input } from '../../components/Input';
 import { Textarea } from '../../components/Textarea';
 import { trpc } from '../../lib/trpc';
+import { Alert } from '../../components/Alert';
+import { Button } from '../../components/Button';
 
 export const NewIdeaPage = () => {
   const createIdea = trpc.createIdea.useMutation();
@@ -44,14 +46,12 @@ export const NewIdeaPage = () => {
       <form onSubmit={formik.handleSubmit}>
         <Input name="name" label="Name" formik={formik} />
         <Input name="nick" label="Nick" formik={formik} />
-        <Input name="description" label="Description" formik={formik} />
+        <Input name="description" label="Description" formik={formik} maxWidth={500} />
         <Textarea name="text" label="Text" formik={formik} />
 
-        {successMessageVisible && <div style={{ color: 'green', marginTop: 10 }}>Idea created successfully!</div>}
-        {!!submittingError && <div style={{ color: 'red', marginTop: 10 }}>{submittingError}</div>}
-        <button type="submit" disabled={formik.isSubmitting}>
-          {formik.isSubmitting ? 'Creating...' : 'Create Idea'}
-        </button>
+        {successMessageVisible && <Alert color="green">Idea created successfully!</Alert>}
+        {!!submittingError && <Alert color="red">{submittingError}</Alert>}
+        <Button loading={formik.isSubmitting}>Create Idea</Button>
       </form>
     </div>
   );
