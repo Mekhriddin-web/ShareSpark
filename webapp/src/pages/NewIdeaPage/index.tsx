@@ -1,29 +1,42 @@
-import { useState } from 'react';
+import { useFormik } from 'formik';
+import { withZodSchema } from 'formik-validator-zod';
+import { z } from 'zod';
 
 import { Segment } from '../../components/Segment';
 import { Input } from '../../components/Input';
 import { Textarea } from '../../components/Textarea';
 
 export const NewIdeaPage = () => {
-  const [state, setState] = useState({
-    name: '',
-    nick: '',
-    description: '',
-    text: '',
+  const formik = useFormik({
+    initialValues: {
+      name: '',
+      nick: '',
+      description: '',
+      text: '',
+    },
+    validate: withZodSchema(
+      z.object({
+        name: z.string().min(1, 'Name is required'),
+        nick: z
+          .string()
+          .min(1, 'Nick is required')
+          .regex(/^[a-z0-9-]+$/, 'Nick may contain only lowercase letters, numbers and dashes'),
+        description: z.string().min(1, 'Description is required'),
+        text: z.string().min(100, 'Text should be at least 100 characters long'),
+      })
+    ),
+    onSubmit: values => {
+      console.log('Submitted', values);
+    },
   });
   return (
     <div>
       <Segment title="New Idea" />
-      <form
-        onSubmit={e => {
-          e.preventDefault();
-          console.info('Submitted', state);
-        }}
-      >
-        <Input name="name" label="Name" state={state} setState={setState} />
-        <Input name="nick" label="Nick" state={state} setState={setState} />
-        <Input name="description" label="Description" state={state} setState={setState} />
-        <Textarea name="text" label="Text" state={state} setState={setState} />
+      <form onSubmit={formik.handleSubmit}>
+        <Input name="name" label="Name" formik={formik} />
+        <Input name="nick" label="Nick" formik={formik} />
+        <Input name="description" label="Description" formik={formik} />
+        <Textarea name="text" label="Text" formik={formik} />
 
         <button type="submit">Create Idea</button>
       </form>

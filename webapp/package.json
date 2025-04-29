@@ -14,10 +14,13 @@
   },
   "dependencies": {
     "@sharespark/backend": "workspace:*",
+    "formik": "^2.4.6",
+    "formik-validator-zod": "^2.2.0",
     "include-media": "^2.0.0",
     "react-router": "^7.5.2",
     "reset-css": "^5.0.2",
-    "sass": "^1.87.0"
+    "sass": "^1.87.0",
+    "zod": "^3.24.3"
   },
   "devDependencies": {
     "@types/react": "^19.1.2",
