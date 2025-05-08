@@ -9,11 +9,13 @@ export const Input = ({
   label,
   formik,
   maxWidth,
+  type = 'text',
 }: {
   label: string;
   name: string;
   formik: FormikProps<any>;
   maxWidth?: number;
+  type?: string;
 }) => {
   const value = formik.values[name];
   const error = formik.errors[name] as string | undefined;
@@ -31,7 +33,7 @@ export const Input = ({
           [css.input]: true,
           [css.invalid]: invalid,
         })}
-        type="text"
+        type={type}
         onChange={formik.handleChange}
         onBlur={() => {
           formik.setFieldTouched(name, true);
