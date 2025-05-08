@@ -2,6 +2,7 @@ import { TrpcRouter } from '@ShareSpark/backend/src/router';
 import { QueryClient } from '@tanstack/react-query';
 import { createTRPCReact } from '@trpc/react-query';
 import { httpBatchLink } from '@trpc/client';
+import superjson from 'superjson';
 
 export const trpc = createTRPCReact<TrpcRouter>();
 
@@ -18,6 +19,7 @@ const trpcClient = trpc.createClient({
   links: [
     httpBatchLink({
       url: 'http://localhost:3000/trpc',
+      transformer: superjson,
     }),
   ],
 });
