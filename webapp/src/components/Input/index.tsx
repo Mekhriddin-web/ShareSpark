@@ -10,12 +10,14 @@ export const Input = ({
   formik,
   maxWidth,
   type = 'text',
+  autocomplete,
 }: {
   label: string;
   name: string;
   formik: FormikProps<any>;
   maxWidth?: number;
   type?: string;
+  autocomplete?: string;
 }) => {
   const value = formik.values[name];
   const error = formik.errors[name] as string | undefined;
@@ -38,6 +40,7 @@ export const Input = ({
         onBlur={() => {
           formik.setFieldTouched(name, true);
         }}
+        autoComplete={autocomplete}
         value={value}
         name={name}
         id={name}

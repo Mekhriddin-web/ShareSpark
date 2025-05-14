@@ -3,6 +3,8 @@ import { withZodSchema } from 'formik-validator-zod';
 import { useState } from 'react';
 import { createSignUpTrpcInput } from '@ShareSpark/backend/src/router/signUp/input';
 import { z } from 'zod';
+import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router';
 
 import { trpc } from '../../lib/trpc';
 import { Segment } from '../../components/Segment';
@@ -10,9 +12,11 @@ import { FormItems } from '../../components/FormItems';
 import { Input } from '../../components/Input';
 import { Button } from '../../components/Button';
 import { Alert } from '../../components/Alert';
+import { getAllIdeasRoute } from '../../lib/routes';
 
 export const SignUpPage = () => {
-  const [successMessageVisible, setSuccessMessageVisible] = useState(false);
+  const navigate = useNavigate();
+  const trpcUtils = trpc.useUtils();
   const [submittingError, setSubmittingError] = useState<string | null>(null);
   const signUp = trpc.signUp.useMutation();
 
@@ -40,12 +44,10 @@ export const SignUpPage = () => {
     onSubmit: async values => {
       try {
         setSubmittingError(null);
-        await signUp.mutateAsync(values);
-        formik.resetForm();
-        setSuccessMessageVisible(true);
-        setTimeout(() => {
-          setSuccessMessageVisible(false);
-        }, 3000);
+        const { token } = await signUp.mutateAsync(values);
+        Cookies.set('token', token, { expires: 99999 });
+        void trpcUtils.invalidate();
+        navigate(getAllIdeasRoute());
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
         setSubmittingError(error.message);
@@ -56,10 +58,15 @@ export const SignUpPage = () => {
     <Segment title="Sign Up">
       <form onSubmit={formik.handleSubmit}>
         <FormItems>
-          <Input name="nick" label="Nick" formik={formik} />
-          <Input name="password" label="Password" type="password" formik={formik} />
-          <Input name="passwordAgain" label="Password again" type="password" formik={formik} />
-          {successMessageVisible && <Alert color="green">Thanks for sign up!</Alert>}
+          <Input name="nick" label="Nick" formik={formik} autocomplete="username" />
+          <Input name="password" label="Password" type="password" autocomplete="new-password" formik={formik} />
+          <Input
+            name="passwordAgain"
+            label="Password again"
+            type="password"
+            autocomplete="new-password"
+            formik={formik}
+          />
           {!!submittingError && <Alert color="red">{submittingError}</Alert>}
           <Button loading={formik.isSubmitting}>Sign Up</Button>
         </FormItems>
