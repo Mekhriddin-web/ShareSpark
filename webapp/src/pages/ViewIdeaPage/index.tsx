@@ -25,6 +25,8 @@ export const ViewIdeaPage = () => {
   return (
     <Segment title={data.idea.name} description={data.idea.description}>
       <strong className={css.createdAt}>Created At: {format(data.idea.createdAt, 'MM/dd/yyyy')}</strong>
+      <div className={css.author}>Author: {data.idea.author.nick}</div>
+      <p className={css.text}>{data.idea.text}</p>
     </Segment>
   );
 };
