@@ -9,7 +9,9 @@ import {
   getSignInRoute,
   getSignOutRoute,
   getSignUpRoute,
+  getEditIdeaRoute,
   getViewIdeaRoute,
+  editIdeaRouteParams,
   viewIdeaRouteParams,
 } from './lib/routes';
 import { Layout } from './components/Layout';
@@ -18,6 +20,7 @@ import { NewIdeaPage } from './pages/NewIdeaPage';
 import { SignUpPage } from './pages/SignUpPage';
 import { SignInPage } from './pages/SignInPage';
 import { SignOutPage } from './pages/SignOutPage';
+import { EditIdeaPage } from './pages/EditIdeaPage';
 
 function App() {
   return (
@@ -31,6 +34,7 @@ function App() {
             <Route path={getAllIdeasRoute()} element={<AllIdeasPage />} />
             <Route path={getViewIdeaRoute(viewIdeaRouteParams)} element={<ViewIdeaPage />} />
             <Route path={getNewIdeaRoute()} element={<NewIdeaPage />} />
+            <Route path={getEditIdeaRoute(editIdeaRouteParams)} element={<EditIdeaPage />} />
           </Route>
         </Routes>
       </BrowserRouter>
